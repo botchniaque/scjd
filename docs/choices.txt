@@ -1,0 +1,59 @@
+I. Database server
+
+1. Which network protocol to use - RMI or Serialized objects via Sockets
+I have chosen to use RMI over serialized objects via Sockets because it's a higher level protocol and it's easier to implement and then call. The other advantage of that approach is that once application will be extended to a web application some elements could be adjusted to be used as EJBs. 
+
+2. Should methods of DBConnection interface throw RemoteException or parent IOException?
+DBConnection interface is a common interface for database calls in remote and standalone mode. I have chosen that methods should throw IOException to keep the interface RMI-independent. 
+
+3. How should the implementation of DBAccess be instanciated? 
+I have decided that it should be a singleton because there has to be a single instance of lock objects and locked rows map. 
+
+4. Should the database rows have IDs?
+It was possible to fulfill the requirements without the necessity for database records to hold explicit IDs. Row's position in the data-file is it's ID which is passed on together with Contractor object to the higher layers. 
+Not implementing the explicit IDs makes the DuplicateKeyException thrown by DBAccess.createRecord(String []) method pointless. I have decided not to implement the explicit IDs therefore DuplicateKeyException is never thrown. 
+
+5. Should the Database public API (DBConnection) use a transport object?
+The 'inner' database interface (DBAccess) operates on String tables as data types. I have decided to introduce a Contractor transport object which will be a part of a database public API (DBConnection) to make it easier to use database result in object-oriented applications. Contractor bean has a constructor taking a String array and toArray() method as utilities to operate easily with internal database API. 
+Defining database-row entity bean makes the application's data model less flexible as application is supposed to reuse old proprietary data format, the data model will not change often.
+
+6. Should Contractor bean's properties be typed differently than String?
+I have decided to keep all the object properties as Strings in Contractor bean. It makes conversion from and to internal database format much easier. Could be introduced when stronger data validation was needed. 
+
+II. Graphic user interface
+
+1. Where should swing actions be defined?
+I have decided that swing actions used in the GUI will be defined in DataTableFrame class as private classes. this approach encapsulates the logic, and allows inheritance and re-usability. It also gives actions the access to parent frame and it's components.
+
+2. How to make the code extensible. 
+To make easy to enhance functionality I have decided to keep the logic behind user actions in a UIController class. Methods of the controller call underlying database layer with a provided connection object (using RMI or bypassing networking). They make sure that displayed data model is up to date. All exceptions thrown from lower layers are passed on to the upper layers for proper handling. 
+
+3. Should database IDs be maintained in the UI layer?
+Yes - they are necessary to address a proper row in a filtered table when performing a database operation on it. Contractor bean carries this information. 
+
+4. Should the meta-data of the database file be accessible in the UI layer?
+Meta-data contains information about the displayed table - count and names of columns, type of displayed fields. It also has values irrelevant in UI layer like magic cookie, or data offset. This information could be used to dynamically adjust displayed table to underlying data model.
+Application is supposed to reuse old proprietary data format which means that data model will not change often. For the database interface clarity I have decided not to expose meta-data information outside the database server. The data table in the UI uses a static list of column names.  
+
+5. Which actions should be put on the menu?
+I have decided that Filter action ('Search' button) will not be put into the 'Actions' menu, because it needs criteria input fields and putting it on the menu makes the usage not clear.
+
+6. How to store and load application properties?
+I have decided to encapsulate java.util.Properties object in a static class to store and load application properties. Using this approach it was very simple to introduce default values loading, and persisting the values.
+
+7. Should the connection details dialogs be custom dialog classes?
+Yes - custom connection details dialogs made it easy to provide a graceful input validation as well as customized dialog's layout. 
+
+III. Possible enhancements
+
+1. Internationalization
+All messages could be externalized to a property files and then proper translations could be loaded using ResourceBundles. 
+
+2. Logging 
+Logging could be configured using Logging API. There could be a file appender configured for better logging information storage and usability. There could be different logging levels defined which could ease application's development, keeping the log readable at the same time. 
+
+ 
+
+
+
+

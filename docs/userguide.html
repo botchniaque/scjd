@@ -1,0 +1,61 @@
+<html>
+<body>
+
+<h1>Bodgitt and Scarper booking system usage instructions</h1>
+
+<h2>Running application</h2>
+
+The application can be ran in 2 modes:
+
+<ul>
+<li><b>client-server</b> - where database server is run separately from graphic user interface. Database server responds to client requests using networking.</li> 
+<li><b>stand alone</b> - database server and graphic user interface are ran in the same JVM. Communication between server and client bypasses networking.</li>
+</ul>
+
+<h3>Running server</h3>
+
+the server is run with the command
+<br/>
+<code>java -jar runme.jar server</code>
+<p/>
+dialog window prompts for server port number on which database server will be listening for the requests. The default value is <i>1099</i>.. 
+After the dialog is confirmed the database server starts.
+<p/>
+To stop the server press 'Stop DB server' button on the dialog shown after starting the server.
+
+<h3>Running client GUI</h3>
+the client GUI application is started with the command
+<br/>
+<code>java -jar runme.jar</code>
+
+<p/>
+dialog window prompts for host name and port number of the database server to connect to. The default values are host: <i>localhost</i>, port: <i>1099</i>. 
+After the dialog is confirmed the client connects to the specified database server and shows the data and data modification panel.
+
+<h3>Running application in stand alone mode</h3>
+
+application in stand alone mode is run with the command
+<br/>
+<code>java -jar runme.jar alone</code>
+
+<p/>
+Window presenting the data from local file is presented as well as data modification panel. 
+
+<h2>Usage of application</h2>
+
+Client Graphic User Interface presents table with data saved in the database file. On the right there is a data modification panel allowing user to book a selected row and search the data by name and location.
+
+<h3>Booking a row</h3>
+
+To book a row first select a row, and then press '<b>Book selected row</b>' button, select proper action from 'Actions' menu or press <b>Alt-b</b> short-cut. Dialog displaying editable Owner value will be shown. Enter proper Owner ID and press '<b>Book</b>' button to confirm the change, or '<b>Cancel</b>' to revert the change. 
+
+<h3>Searching through data</h3>
+
+Data in the table can be filtered by Contractor's Name and/or Location. To filter the data enter the search keywords and press '<b>Search</b>' button or press <b>Alt-s</b> short-cut. Only exact matches of each criteria will be shown. 
+To clear search criteria and show all data rows press '<b>Show all</b>' button, select proper action from 'Actions' menu or press <b>Alt-a</b> short-cut.
+
+<h2>Error handling</h2>
+
+Whenever application encounters a problem error dialog is displayed informing what was the cause of the problem. Detailed error information including stack trace can be found in the application console. 
+</body>
+</html>

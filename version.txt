@@ -1,0 +1,2 @@
+(Java SE) 6 Update 16 build 1.6.0_16-b01
+Ubuntu 9.10 Karmic Koala 
